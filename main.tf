@@ -8,6 +8,7 @@ terraform {
 
   # Update this block with the location of your terraform state file
   backend "azurerm" {
+    skip_provider_registration = "true"
     subscription_id      = "9df535e2-a77e-488d-bb66-817d29e9067e"
     resource_group_name  = "GitHub_RG"
     storage_account_name = "terraformgithubactions23"
