@@ -13,13 +13,13 @@ terraform {
     storage_account_name = "terraformgithubactions23"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
-    skip_provider_registration = "true"
     #use_oidc             = true
   }
 }
 
 provider "azurerm" {
   features {}
+  skip_provider_registration = "true"
   #use_oidc = true
 }
 
