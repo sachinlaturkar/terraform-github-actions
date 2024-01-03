@@ -1,47 +1,21 @@
-# File: .github/workflows/workflow.yml
-
-name: Run Azure Login with OIDC
 on: [push]
 
-permissions:
-      id-token: write
-      contents: read
-jobs: 
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          enable-AzPSSession: true
-  
-      - name: Azure CLI script
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
+name: AzureLoginSample
 
-      - name: Azure PowerShell script
-        uses: azure/powershell@v1
-        with:
-          azPSVersion: "latest"
-          inlineScript: |
-            Get-AzContext
-            
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.1.0
-          
-      - name: Initialize Terraform
-        run: terraform init
+jobs:
+      build-and-deploy:
+            runs-on: ubuntu-latest
+            steps:
 
-      - name: Validate Terraform Configuration
-        run: terraform validate
+                - name: Log in with Azure
+                  uses: azure/login@v1
+                  with:
+                        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Create Azure Resources with Terraform
-        run: terraform apply -auto-approve
+                - name: Azure CLI script
+                  uses: azure/CLI@v1
+                  with:
+                    azcliversion: 2.0.72
+                    inlineScript: |
+                        az account show
+                        az storage -h
